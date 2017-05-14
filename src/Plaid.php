@@ -827,6 +827,27 @@ class Plaid
     }
 
     ///////////////////////////
+    // Get Institutions //
+    ///////////////////////////
+
+    public static function getInstitions($count = 50, $offset = 0)
+    {
+        try {
+            $request = self::client()->post('institutions/get', [
+                'json' => [
+                    'client_id' => config('plaid.client_id'),
+                    'secret' => config('plaid.secret'),
+                    'count' => $count,
+                    'offset' => $offset
+                ]
+            ]);
+            return $request->getBody();
+        } catch (RequestException $e) {
+            return json_decode($e->getResponse()->getBody()->getContents(), true);
+        }
+    }
+
+    ///////////////////////////
     // Longtail Institutions //
     ///////////////////////////
 
